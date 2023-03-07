@@ -6,14 +6,15 @@ from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 class DiabetesDataset(Dataset):
     def _init_(self,datapath):
-        df=pd.read_csv(datapath,)
-        self.len=df.columns[0]
-        self.x_data=torch.df[[columns[0],columns[1]]]
-        self.y_data=torch.df[columns[2]]
+        df=pd.read_csv(datapath, columns=['user_id', 'item_id', 'lable'])
+        self.len=df.columns[0] ### 行数
+        self.x_data=df[[df['user_id'],df[1]]]
+        self.y_data=df[df[2]] ### 保证label和user id, item id为数值
     def _getitem_(self,index):
         return self.x_data[index],self.y_data[index]
     def _len_(self):
         return self.len
+
 dataset1=DiabetesDataset('train_data_csv')
 train_loader=DataLoader(dataset=dataset1,
                         batch_size=32,
