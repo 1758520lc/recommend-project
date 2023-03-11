@@ -8,16 +8,19 @@ import dgl.nn as dglnn
 from dgl.nn import GraphConv
 
 class GCN(nn.Module):
-    def __init__(self,in_feats,hid_size,out_feats) -> None:
+    def __init__(self,in_feats,hid_size,out_feats,num_nodes) -> None:
         super().__init__()
         self.layers = nn.ModuleList()
+        self.embedding = nn.Embedding(num_nodes, in_feats)
+        ### GCN
         self.layers.append(dglnn.GraphConv(in_feats,hid_size,activation=F.relu))
         self.layers.append(dglnn.GraphConv(hid_size,out_feats))
         self.dropout=nn.Dropout(0.5)
         
 
     def forward(self,g):
-        h=g.ndata['feat']
+        h=g.ndata['feat'] ### ids 1 x n, 0,1,2,3
+        h = self.embedding[h] ### n x in_feats, 0,1,2,3
         for i,layer in enumerate(self.layers):
             if i!=0:
                 h=self.dropout(h)
@@ -61,13 +64,4 @@ class GAT(nn.Module):
             optimizer.step()
             print('Epoch %d | Loss: %.4f' % (epoch, loss.item()))
 
-df=pd.read_csv('train_data_csv',columns=['user_id', 'item_id', 'lable'])
-g=dgl.graph((df['user_id'],df['item_id']))
-g=dgl.ndata['feat']=torch.tensor((df['user_id'],df['item_id']))
-g.edata['label']=torch.tensor(df['label'].values)
-in_feats = 100# 特征向量维度
-hid_feats =20 # 隐藏层特征向量维度
-hid_size=16
-out_feats=2
-num_heads = 100
-model = GAT(in_feats, hid_feats, num_heads)
+

@@ -26,3 +26,5 @@ test_loader=DataLoader(dataset=dataset2,
                        shuffle=True,
                        num_workers=2)
 
+### odps  数据平台，数据读取的代码
+### 星云，模型运行平台
