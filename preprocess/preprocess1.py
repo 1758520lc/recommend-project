@@ -110,8 +110,7 @@ def process_dataset(data_path='dataset/user_behavior.csv'):
             user_id, item_id, category_id, behavior_type, timestamp = row
             item_set.add(item_id)
             datetime_obj = datetime.strptime(timestamp, '%Y-%m-%d %H')
-    dec_03_data = [row for row in enumerate(
-        f) if row[4].startwith('2017-12-03') & row[3] == 'pv']
+    dec_03_data = [row for row in enumerate(f) if row[4].startwith('2017-12-03') & row[3] == 'pv']
 
     # 使用编码之后的id
     entity_dict = dict()
