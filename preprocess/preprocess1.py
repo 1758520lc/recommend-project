@@ -49,6 +49,9 @@ def process_knowledge_graph(data_path='dataset/user_behavior.csv'):
             user_id = 'user:' + infos[0]
             item_id = 'item:' + infos[1]
             action_id = 'feedback:'+infos[3]
+            timestamp = int(info[4])
+            if timestamp>= time_start:
+                continue
             # entities_dict[user_id]=item_id ###
             # entities_dict['user:10001']=0 ###
             if user_id not in entities_dict:
@@ -132,6 +135,7 @@ def process_dataset(data_path='dataset/user_behavior.csv'):
 
     all_data_set = positive_triple_set.union(negtive_triple_set)
     # headers=['user_id', 'item_id', 'lable']
+    ### []
     # all_data=all_data_set.to_csv('triple.csv', header=headers, index=0)
     train_data, test_data = train_test_split(
         list(all_data_set), train_size=0.8, test_size=0.2)
@@ -165,5 +169,5 @@ def process_dataset(data_path='dataset/user_behavior.csv'):
 
 if __name__ == 'main':
     # 处理知识图谱
-    process_knowledge_graph('')
+    process_knowledge_graph()
     process_dataset()
