@@ -34,7 +34,7 @@ from datetime import datetime, timedelta
 import random
 
 
-def process_knowledge_graph(data_path='dataset/user_behavior.csv'):
+def process_knowledge_graph(data_path='dataset/UserBehavior.csv'):
     # 实体类型：user,item
     entities_dict = dict()  # {entity_name : entity_id}, 实体集合表
     relations_dict = dict()
@@ -49,8 +49,8 @@ def process_knowledge_graph(data_path='dataset/user_behavior.csv'):
             user_id = 'user:' + infos[0]
             item_id = 'item:' + infos[1]
             action_id = 'feedback:'+infos[3]
-            timestamp = int(info[4])
-            if timestamp>= time_start:
+            timestamp = int(infos[4])
+            if timestamp>= 1512230400:
                 continue
             # entities_dict[user_id]=item_id ###
             # entities_dict['user:10001']=0 ###
@@ -105,7 +105,7 @@ def process_knowledge_graph(data_path='dataset/user_behavior.csv'):
 # 3. 随机负采样，作为负样本，（userid, itemid, 0）,itemid 来自于全局的item
 # 4. 把正负样本数据整合成一个set，做一个8:2的随机分割，分别存储到训练集和测试集文件 dataset/data
 
-def process_dataset(data_path='dataset/user_behavior.csv'):
+def process_dataset(data_path='dataset/UserBehavior.csv'):
     item_set = set()
     with open(data_path, 'r') as f:
         reader = csv.reader(f)
